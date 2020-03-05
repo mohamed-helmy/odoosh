@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+    <template id="edc_report_purchasequotation_document" inherit_id="purchase.report_purchasequotation_document">
+        <xpath expr="//table[1]//thead//tr//th[1]" position="before">
+            <th name="th_row_number" class="text-left">NO.</th>
+        </xpath>
+        <xpath expr="//table[1]//tbody//tr//t" position="before">
+            <t t-set="counter" t-value="1"/>
+        </xpath>
+        <xpath expr="//td[@id='product']" position="before">
+            <td name="td_name">
+                <span t-esc="counter"/>
+                <t t-set="counter" t-value="counter+1"/>
+            </td>
+        </xpath>
+    </template></data>
+</odoo>
+

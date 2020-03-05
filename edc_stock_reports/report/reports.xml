@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <report
+                string="Warehouse Issue"
+                id="action_report_warehouse_issue"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                name="edc_stock_reports.report_warehouse_issue"
+                file="edc_stock_reports.report_warehouse_issue"
+                print_report_name="'Warehouse Issue - %s' % (object.name)"
+        />
+    </data>
+</odoo>

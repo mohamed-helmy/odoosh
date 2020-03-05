@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="purchase_order_form" model="ir.ui.view">
+            <field name="name">purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="priority" widget="priority"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="purchase_order_view_tree_rq" model="ir.ui.view">
+            <field name="name">purchase.order.view.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="priority" widget="priority"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="purchase_order_view_tree" model="ir.ui.view">
+            <field name="name">purchase.order.view.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="priority" widget="priority"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="view_purchase_order_kanban" model="ir.ui.view">
+            <field name="name">purchase.order.kanban</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='o_kanban_record_top mb16']" position="after">
+                    <div>
+                        <small>
+                            <field name="priority" widget="priority"/>
+                        </small>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_purchase_order_filter_priority" model="ir.ui.view">
+            <field name="name">request.quotation.select</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my_purchases']" position="after">
+                    <separator/>
+                    <field name="priority" string="Priority"/>
+                    <filter name="priority_low" string="Low" domain="[('priority','=', 'low')]"/>
+                    <filter name="priority_normal" string="Normal" domain="[('priority','=', 'normal')]"/>
+                    <filter name="priority_high" string="High" domain="[('priority','=', 'high')]"/>
+                    <filter name="priorit_very_high" string="Very High" domain="[('priority','=', 'very_high')]"/>
+                </xpath>
+                <xpath expr="//filter[@name='vendor']" position="after">
+                    <filter string="Priority" name="priority" context="{'group_by':'priority'}"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="view_purchase_order_filter_priority_po" model="ir.ui.view">
+            <field name="name">request.quotation.select</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my_Orders']" position="after">
+                    <separator/>
+                    <field name="priority" string="Priority"/>
+                    <filter name="priority_low" string="Low" domain="[('priority','=', 'low')]"/>
+                    <filter name="priority_normal" string="Normal" domain="[('priority','=', 'normal')]"/>
+                    <filter name="priority_high" string="High" domain="[('priority','=', 'high')]"/>
+                    <filter name="priorit_very_high" string="Very High" domain="[('priority','=', 'very_high')]"/>
+
+                </xpath>
+                <xpath expr="//filter[@name='vendor']" position="after">
+                    <filter string="Priority" name="priority" context="{'group_by':'priority'}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

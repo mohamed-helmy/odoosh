@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <template id="edc_report_delivery_document" inherit_id="stock.report_delivery_document">
+            <xpath expr="//table[@name='stock_move_table']//thead//tr//th[1]" position="before">
+                <th name="th_row_number" class="text-left">NO.</th>
+            </xpath>
+            <xpath expr="//table[@name='stock_move_table']//tbody//t[@t-set='lines']" position="before">
+                <t t-set="counter" t-value="1"/>
+            </xpath>
+            <xpath expr="//table[@name='stock_move_table']//tbody//tr//td[1]" position="before">
+                <td name="td_name">
+                    <span t-esc="counter"/>
+                    <t t-set="counter" t-value="counter+1"/>
+                </td>
+            </xpath>
+        </template>
+    </data>
+</odoo>
+

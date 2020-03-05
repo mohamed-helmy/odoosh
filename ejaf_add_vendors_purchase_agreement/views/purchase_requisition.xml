@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_purchase_requisition_form" model="ir.ui.view">
+            <field name="name">purchase.requisition.form</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_in_progress']" position="before">
+                    <button name="add_quotation_vendors" type="object"
+                            string="New Quotation" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['open','in_progress'])]}"
+                    />
+                </xpath>
+                <xpath expr="//button[@name='%(purchase_requisition.action_purchase_requisition_to_so)d'][1]"
+                       position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='%(purchase_requisition.action_purchase_requisition_to_so)d'][2]"
+                       position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

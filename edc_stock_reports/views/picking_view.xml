@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="project"/>
+                <field name="document_description"/>
+            </field>
+            <xpath expr="//button[6]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='move_ids_without_package']//tree//field[@name='description_picking']"
+                   position="after">
+                <field name="remarks"/>
+            </xpath>
+
+
+            <xpath expr="//page[@name='note']" position="before">
+                <page string="Transportation" name="transportation" attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}">
+                    <group>
+                        <group string="Transportation Company Information" name="transportation_company_inf">
+                            <field name="transport_partner_id"/>
+                            <field name="truck_number"/>
+                            <field name="driver_name"/>
+                        </group>
+                        <group string="Shipping Information" name="shipping_inf">
+                            <field name="shipper"/>
+                            <field name="ship_date"/>
+
+                        </group>
+                        <group string="Receiving Information" name="receiving_inf">
+                            <field name="receiver"/>
+                            <field name="receive_date"/>
+
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_stock_move_line_detailed_operation_tree" model="ir.ui.view">
+        <field name="name">stock.move.line.operations.tree</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="remarks"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

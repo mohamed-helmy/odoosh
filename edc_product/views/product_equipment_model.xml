@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_equipment_model_form_view" model="ir.ui.view">
+            <field name="name">product.equipment.model.form</field>
+            <field name="model">product.equipment.model</field>
+            <field name="arch" type="xml">
+
+                <form string="Equipment Model">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_equipment_model_tree_view" model="ir.ui.view">
+            <field name="name">product.equipment.model.tree</field>
+            <field name="model">product.equipment.model</field>
+            <field name="arch" type="xml">
+                <tree string="Equipment Model">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_equipment_model_action_view" model="ir.actions.act_window">
+            <field name="name">Equipment Model</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.equipment.model</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a New Equipment Model .
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="product_equipment_model_action_menu" name="Equipment Model"
+                  parent="stock.menu_product_in_config_stock" action="product_equipment_model_action_view"
+                  sequence="5" groups="stock.group_stock_user"/>
+    </data>
+</odoo>

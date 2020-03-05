@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="transfer_xlsx"
+                model="stock.picking"
+                string="Internal Transfer(xlsx)"
+                report_type="xlsx"
+                name="edc_stock_reports.transfers_report_xlsx"
+                file="edc_stock_reports.transfers_report_xlsx"
+                attachment_use="False"
+        />
+
+
+    </data>
+</odoo>

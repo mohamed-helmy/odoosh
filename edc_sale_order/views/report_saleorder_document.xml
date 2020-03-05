@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="edc_report_saleorder_document" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+                <t t-call="edc_sale_order.custom_so_external_layout_standard">
+                    <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                    <div class="page">
+                        <html>
+                            <head>
+                                <style>
+                                    table{
+                                    border: 2px solid gray;
+                                    border-collapse: collapse;
+
+                                    }
+                                    td {
+                                    text-align: left;
+                                    border-top: 2px dashed gray;
+                                    border-bottom: 2px dashed gray;
+                                    border-collapse: collapse;
+
+                                    }
+                                    tr {
+                                    border-left: 2px dashed gray;
+                                    border-right: 2px dashed gray;
+                                    border-collapse: collapse;
+
+                                    }
+
+                                    th {
+                                    text-align: left;
+                                    border: 2px solid gray;
+                                    font-size:16px;
+                                    background-color: black;
+                                    border-collapse: collapse;
+                                    color: #FDFEFE;
+                                    }
+                                </style>
+                            </head>
+                        </html>
+                        <div class="row">
+                             <div class="col-5 mb4" style="height:225px;border: 2px solid gray;margin-left:15px;">
+                                <div style="text-align: left;font-size:16px;background-color: black;color: #FDFEFE;margin-left:-15px;margin-right:-15px;">
+                                    <strong>Bill To :</strong>
+                                </div>
+                                <div style="font-size:15px;margin-left:-10px;">
+                                    <t t-raw="doc.bill_to"/>
+                                </div>
+                            </div>
+                            <div class="col-2 mb4"></div>
+                            <div class="col-5 mb4" style="height:225px;border: 2px solid gray;margin-left:-25px;">
+                                <div style="text-align: left;font-size:16px;background-color: black;color: #FDFEFE;margin-left:-15px;margin-right:-15px;">
+                                    <strong>Information</strong>
+                                </div>
+                                <div style="font-size:15px;margin-left:-10px;">
+                                    <span>Date :</span>
+                                    <span t-field="doc.date_order" t-options='{"format": "dd/MM/YYYY"}'/>
+                                    <br></br>
+                                    <span t-if="doc.state=='draft'">Quote No :</span>
+                                    <span t-if="doc.state!='draft'">Order No :</span>
+                                    <span t-esc="doc.name"/>
+                                    <br></br>
+                                    <span>Contract No :</span>
+                                    <span t-esc="doc.pricelist_id.name"/>
+                                    <br></br>
+                                    <span>Customer Refernece :</span>
+                                    <span t-esc="doc.client_order_ref"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-12 mb4">
+                                <table width="100%">
+                                    <thead>
+                                        <tr style="font-size:16px;background-color: black;color: #FDFEFE">
+                                            <th>Cost Center</th>
+                                            <th>Project</th>
+                                            <th>Delivery Note</th>
+                                            <th>Payment Terms</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="invoice_tbody">
+                                        <tr style="border: 1px solid black;">
+                                            <td>
+                                                <span t-field="doc.analytic_account_id.name"/>
+                                            </td>
+
+
+                                            <td>
+                                                <span t-field="doc.project_id.name"/>
+                                            </td>
+
+                                            <td>
+                                                <span t-field="doc.inventory_note"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.payment_term_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div class="row">
+                            <div class="col-12">
+                                <t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>
+                                <table width="100%">
+                                    <thead>
+                                        <tr style="font-size:16px;background-color: black;color: #FDFEFE;border: 1px solid black">
+                                            <th>NO.</th>
+                                            <th>Description</th>
+                                            <th>Qty</th>
+                                            <th>Unit</th>
+                                            <th>Price</th>
+                                            <th>Dis %.</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="invoice_tbody">
+                                        <t t-set="lines" t-value="doc.order_line.filtered(lambda x: x.product_id)"/>
+                                        <t t-set="counter" t-value="1"/>
+                                        <t t-foreach="doc.order_line" t-as="l">
+                                            <tr t-att-class="'bg-200 font-weight-bold o_line_section' if l.display_type == 'line_section' else 'font-italic o_line_note' if l.display_type == 'line_note' else ''">
+                                                <t t-if="not l.display_type">
+
+                                                    <td>
+                                                        <span t-esc="counter"/>
+                                                        <t t-set="counter" t-value="counter+1"/>
+                                                    </td>
+                                                    <td class="text-left"
+                                                        style="border-left: 1px solid white;border-right: 1px solid white">
+                                                        <span t-field="l.name"/>
+                                                    </td>
+
+                                                    <td>
+                                                        <span t-field="l.product_uom_qty"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="l.product_uom.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="l.price_unit"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="l.discount"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="l.total_without_discount"/>
+                                                    </td>
+                                                </t>
+                                                <t t-if="l.display_type == 'line_section'">
+                                                    <td colspan="7"
+                                                        style="color: #175295;">
+                                                        <span t-field="l.name"/>
+                                                    </td>
+                                                </t>
+                                                <t t-if="l.display_type == 'line_note'">
+                                                    <td colspan="7"
+                                                        style="color: #175295;">
+                                                        <span t-field="l.name"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br></br>
+                        <table style="width:30%" align="right">
+                            <tr class="text-right">
+
+                                <tr style="font-size:10">
+                                    <td style="border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-top: 1px solid black">
+                                        <strong>Subtotal :</strong>
+                                        <span t-esc="'{0:,.2f}'.format(doc.total_without_discount)"/>
+                                        <span t-field="doc.currency_id.symbol"/>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black">
+                                        <strong>Discount :</strong>
+                                        <span t-esc="'{0:,.2f}'.format(doc.total_discount)"/>
+                                        <span t-field="doc.currency_id.symbol"/>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black">
+                                        <strong>Total USD :</strong>
+                                        <span t-esc="'{0:,.2f}'.format(doc.amount_total)"/>
+                                        <span t-field="doc.currency_id.symbol"/>
+
+                                    </td>
+                                </tr>
+                            </tr>
+                        </table>
+                        <p style="page-break-before:always;"></p>
+                        <p>
+                            <p t-field="doc.note"/>
+                            <p t-if="doc.payment_term_id.note">
+                                <span t-field="doc.payment_term_id.note"/>
+                            </p>
+                        </p>
+                        <br></br>
+                        <br></br>
+                        <h5>
+                            <strong>Customer's Acceptance</strong>
+                        </h5>
+                        <table class="table table-sm o_main_table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 2px solid gray;">Name</td>
+                                    <td style="border: 2px solid gray;">Position</td>
+                                    <td style="border: 2px solid gray;">Date</td>
+                                    <td style="border: 2px solid gray;">Signature</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid gray;">
+                                        <span style="color:#FFFFFF;">.</span>
+                                    </td>
+                                    <td style="border: 2px solid gray;"/>
+                                    <td style="border: 2px solid gray;"/>
+                                    <td style="border: 2px solid gray;"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h5>
+                            <strong>EDC Romfor Approval</strong>
+                        </h5>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 2px solid gray;">Name</td>
+                                    <td style="border: 2px solid gray;">Position</td>
+                                    <td style="border: 2px solid gray;">Date</td>
+                                    <td style="border: 2px solid gray;">Signature</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid gray;">
+                                        <span style="color:#FFFFFF;">.</span>
+                                    </td>
+                                    <td style="border: 2px solid gray;"/>
+                                    <td style="border: 2px solid gray;"/>
+                                    <td style="border: 2px solid gray;"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>

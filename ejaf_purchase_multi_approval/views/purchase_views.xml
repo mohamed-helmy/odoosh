@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="before">
+                    <field name="multi_approval" invisible="1"/>
+                    <field name="approval_allowed" invisible="1"/>
+                    <field name="amount_limit_approval_allowed" invisible="1"/>
+                    <field name="last_approved_level_id" invisible="1"/>
+                    <field name="next_approval_level_id" invisible="1"/>
+                    <field name="order_limit_exceeded" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@id='bid_confirm']" position="before">
+                    <!-- confirm button in case of multi approvals -->
+                    <button name="action_multi_approval" id="multi_approval" attrs="{'invisible': ['|', ('approval_allowed', '=', False), ('multi_approval', '=', False)]}" string="Confirm Order" type="object" class="oe_highlight"/>
+                    <!-- confirm button in case of no multi approvals with limit approval group -->
+                    <button name="action_multi_approval" id="limit_approval" attrs="{'invisible': ['|', '|', ('state', 'not in', ['draft', 'sent']), ('order_limit_exceeded', '=', False), ('multi_approval', '=', True)]}" string="Confirm Order" type="object" class="oe_highlight"/>
+
+                    <button name="button_cancel" states="first_approval,second_approval" string="Cancel" type="object"/>
+                </xpath>
+                <xpath expr="//button[@name='button_approve']" position="replace">
+                    <button name="button_approve" type="object" attrs="{'invisible': ['|', ('state', 'not in', ['to approve', 'amount_limitation']), ('amount_limit_approval_allowed', '=', False)]}" string="Approve Order" class="oe_highlight"/>
+                </xpath>
+
+                <!-- Hide normal confirm buttons in case of multi approvals or reaching the amount limit -->
+                <xpath expr="//button[@id='bid_confirm']" position="replace">
+                    <button name="button_confirm" type="object" attrs="{'invisible': ['|', '|', ('state', '!=', 'sent'), ('multi_approval', '=', True), ('order_limit_exceeded', '=', True)]}" string="Confirm Order" class="oe_highlight" id="bid_confirm"/>
+                </xpath>
+                <xpath expr="//button[@id='draft_confirm']" position="replace">
+                    <button name="button_confirm" type="object" attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('multi_approval', '=', True), ('order_limit_exceeded', '=', True)]}" string="Confirm Order" id="draft_confirm"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

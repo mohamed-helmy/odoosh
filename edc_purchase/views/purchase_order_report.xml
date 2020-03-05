@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+            string="Purchase Order"
+            id="purchase.action_report_purchase_order"
+            model="purchase.order"
+            report_type="qweb-pdf"
+            name="purchase.report_purchaseorder"
+            file="purchase.report_purchaseorder"
+            print_report_name="
+                (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+                'Purchase Order - %s' % (object.name))"
+            menu="False"
+    />
+    <report
+            string="Purchase Order"
+            id="action_report_purchase_order_template"
+            model="purchase.order"
+            report_type="qweb-pdf"
+            name="edc_purchase.purchase_order_template"
+            file="edc_purchase.purchase_order_template"
+            paperformat="edc_purchase.purchase_order_paperformat_a4"
+    />
+
+
+</odoo>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_warehouse_issue">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+                    <div class="header" style="border-bottom: 1px solid grey;margin-bottom: -15px;">
+                        <div class="row">
+                            <div class="col-6 mb4">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="height: 120px;width:250px" alt="Logo"/>
+                            </div>
+                            <div class="col-6 mb4 text-right">
+                                <strong style="font-size:50px;">Warehouse Issue</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article">
+                        <div class="page">
+                            <style>
+                                table{
+                                border: 1px solid black;
+                                border-collapse: collapse;
+                                }
+                                th, td {
+                                border-top: 1px dashed black;
+                                border-left: 1px solid black;
+                                border-right: 1px solid black;
+                                border-bottom: 1px dashed black;
+                                border-collapse: collapse;
+                                }
+                                th {
+                                text-align: left;
+                                }
+                            </style>
+                            <div class="row">
+                                <div class="col-5 mb4">
+                                    <table width="100%">
+                                        <tr>
+                                            <td style="font-size:16px;background-color: black;color: #FDFEFE">
+                                                <span>Information</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 1px solid black;">
+                                            <td style="font-size:10">
+                                                <span>Project :</span>
+                                                <span t-esc="o.project"/>
+                                                <br/>
+                                                <span>From :</span>
+                                                <span t-esc="o.location_id.display_name"/>
+                                                <br/>
+                                                <span>Date :</span>
+                                                <span t-esc="o.scheduled_date"/>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br></br>
+                            <div class="row">
+                                <div class="col-12 mb4">
+                                    <table class="table" width="100%">
+                                        <thead style="background-color: black;color:white;">
+                                            <tr>
+                                                <th>Document Description</th>
+                                                <th>Issue Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong t-field="o.document_description"/>
+                                                </td>
+                                                <td>
+                                                    <strong t-field="o.name"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br></br>
+                            <div class="row">
+                                <div class="col-12 mb4">
+                                    <table width="100%">
+                                        <thead>
+                                            <tr style="font-size:15px;background-color: black;color:white;border-bottom: 1px solid black">
+                                                <th>
+                                                    <strong class="text-center">Item code</strong>
+                                                </th>
+                                                <th>
+                                                    <strong class="text-center">Description</strong>
+                                                </th>
+                                                <th>
+                                                    <strong class="text-center">Part NO.</strong>
+                                                </th>
+                                                <th>
+                                                    <strong class="text-center">Reference</strong>
+                                                </th>
+                                                <th>
+                                                    <strong class="text-center">unit</strong>
+                                                </th>
+                                                <th>
+                                                    <strong style="font-size:14px;">QTY In(Out)</strong>
+                                                </th>
+                                                <th>
+                                                    <strong class="text-center">Cost</strong>
+                                                </th>
+                                                <th>
+                                                    <strong class="text-center">Total Cost</strong>
+                                                </th>
+                                                <th>
+                                                    <strong class="text-center">Qty Available</strong>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="all_total_cost" t-value="0"/>
+                                            <tr t-foreach="o.move_lines" t-as="move">
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span class="text-center" t-field="move.product_id.name"/>
+                                                </td>
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span class="text-center" t-field="move.description_picking"/>
+                                                </td>
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span class="text-center" t-field="move.product_id.barcode"/>/
+                                                    <span class="text-center" t-field="move.product_id.second_barcode"/>
+
+                                                </td>
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span class="text-center" t-field="move.product_id.default_code"/>
+                                                </td>
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span class="text-center" t-field="move.product_uom.name"/>
+                                                </td>
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span class="text-center" t-field="move.quantity_done"/>
+                                                </td>
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span t-field="move.product_id.standard_price"/>
+                                                </td>
+                                                <t style="border-left: 1px solid white;border-right: 1px solid white" t-set="total_cost"
+                                                   t-value="move.quantity_done * move.product_id.standard_price"/>
+
+                                                <td  style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span class="text-center" t-esc="total_cost"/>
+                                                </td>
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <span t-esc="move.product_id.with_context({'location': o.location_id.id}).qty_available"/>
+                                                </td>
+                                                <t t-set="all_total_cost" t-value="total_cost+all_total_cost"/>
+                                            </tr>
+                                            <tr style="background-color: white;color:black;">
+                                                <td colspan="7"
+                                                    style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td style="border-left: 1px solid white;border-right: 1px solid white">
+                                                    <strong t-esc="all_total_cost"/>
+                                                </td>
+                                                <td  style="border-left: 1px solid white;border-right: 1px solid white"></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer o_standard_footer">
+                        <div class="text-left page_number">
+                            <div class="text-muted">
+                                Page:
+                                <span class="page"/>
+                                of
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <ul class="list-inline">
+                                <li t-if="o.company_id.phone">
+                                    <i class="fa fa-phone"/>
+                                    <span t-field="o.company_id.phone"/>
+                                </li>
+                                <li t-if="o.company_id.email">
+                                    <i class="fa fa-at"/>
+                                    <span t-field="o.company_id.email"/>
+                                </li>
+                                <li t-if="o.company_id.website">
+                                    <i class="fa fa-globe"/>
+                                    <span t-field="o.company_id.website"/>
+                                </li>
+                                <li t-if="o.company_id.vat">
+                                    <i class="fa fa-building-o"/>
+                                    <t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>:
+                                    <span t-field="o.company_id.vat"/>
+                                </li>
+                            </ul>
+                            <div t-field="o.company_id.report_footer"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

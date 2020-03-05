@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_equipment_group_admin,product.equipment,model_product_equipment,base.group_system,1,1,1,1
+access_product_manufacturer_group_admin,product.manufacturer,model_product_manufacturer,base.group_system,1,1,1,1
+access_product_model_group_admin,product.model,model_product_model,base.group_system,1,1,1,1
+access_product_equipment_model_group_admin,product.equipment.model,model_product_equipment_model,base.group_system,1,1,1,1
+access_product_equipment_group_user,product.equipment,model_product_equipment,base.group_user,1,0,0,0
+access_product_manufacturer_group_user,product.manufacturer,model_product_manufacturer,base.group_user,1,0,0,0
+access_product_model_group_user,product.model,model_product_model,base.group_user,1,0,0,0
+access_product_equipment_model_group_user,product.equipment.model,model_product_equipment_model,base.group_user,1,0,0,0
+access_product_equipment_model_group_stock_user,product.equipment.model,model_product_equipment_model,stock.group_stock_user,1,1,1,1
+access_product_manufacturer_group_stock_user,product.manufacturer,model_product_manufacturer,stock.group_stock_user,1,1,1,1
+access_product_equipment_group_stock_user,product.equipment,model_product_equipment,stock.group_stock_user,1,1,1,1
+access_product_model_group_stock_user,product.model,model_product_model,stock.group_stock_user,1,1,1,1

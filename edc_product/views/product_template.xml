@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_template_product_form" model="ir.ui.view">
+            <field name="name">product.template.product.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="product_main_equipment_id" context="{'default_type': 'main'}"/>
+                    <field name="product_sub_equipment_id" context="{'default_type': 'sub'}"/>
+                    <field name="product_manufacturer_id"/>
+                    <field name="product_model_id"/>
+                    <field name="product_size"/>
+                    <field name="product_pressure"/>
+                    <field name="product_equipment_model_id"/>
+                </xpath>
+                <xpath expr="//field[@name='barcode']" position="attributes">
+                    <attribute name="string">Barcode (P/N1)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="second_barcode"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_normal_form_view" model="ir.ui.view">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="product_main_equipment_id" context="{'default_type': 'main'}"/>
+                    <field name="product_sub_equipment_id" context="{'default_type': 'sub'}"/>
+                    <field name="product_manufacturer_id"/>
+                    <field name="product_model_id"/>
+                    <field name="product_size"/>
+                    <field name="product_pressure"/>
+                    <field name="product_equipment_model_id"/>
+                </xpath>
+                <xpath expr="//field[@name='barcode']" position="attributes">
+                    <attribute name="string">Barcode (P/N1)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="second_barcode"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_template_tree_view" model="ir.ui.view">
+            <field name="name">product.template</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='uom_id']" position="after">
+                    <field name="product_main_equipment_id" optional="show"/>
+                    <field name="product_sub_equipment_id" optional="show"/>
+                    <field name="product_manufacturer_id" optional="show"/>
+                    <field name="product_model_id" optional="show"/>
+                    <field name="product_size" optional="show"/>
+                    <field name="product_equipment_model_id" optional="show"/>
+                    <field name="second_barcode" optional="show"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_product_tree_view" model="ir.ui.view">
+            <field name="name">product.product</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='uom_id']" position="after">
+                    <field name="product_main_equipment_id" optional="show"/>
+                    <field name="product_sub_equipment_id" optional="show"/>
+                    <field name="product_manufacturer_id" optional="show"/>
+                    <field name="product_model_id" optional="show"/>
+                    <field name="product_size" optional="show"/>
+                    <field name="product_equipment_model_id" optional="show"/>
+                    <field name="second_barcode" optional="show"/>
+                </xpath>
+
+            </field>
+        </record>
+
+         <record id="product_template_search_view" model="ir.ui.view">
+            <field name="name">product.template.search.stock.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='pricelist_id']" position="after">
+                    <separator/>
+                    <field name="product_main_equipment_id" />
+                    <field name="product_sub_equipment_id" />
+                    <field name="product_manufacturer_id" />
+                    <field name="product_model_id" />
+                    <field name="product_size" />
+                    <field name="product_equipment_model_id" />
+                    <field name="default_code" />
+                    <field name="second_barcode" />
+                </xpath>
+                <xpath expr="//group/filter[last()]" position="after">
+                    <filter string="Main Equipment" name="product_main_equipment_id" context="{'group_by':'product_main_equipment_id'}"/>
+                    <filter string="Sub Equipment" name="product_sub_equipment_id" context="{'group_by':'product_sub_equipment_id'}"/>
+                    <filter string="Manufacture" name="product_manufacturer_id" context="{'group_by':'product_manufacturer_id'}"/>
+                    <filter string="Model" name="product_model_id" context="{'group_by':'product_model_id'}"/>
+                    <filter string="Size" name="product_size" context="{'group_by':'product_size'}"/>
+                    <filter string="Equipment Model" name="product_equipment_model_id" context="{'group_by':'product_equipment_model_id'}"/>
+                    <filter string="Internal Reference" name="default_code" context="{'group_by':'default_code'}"/>
+                    <filter string="P/N2" name="second_barcode" context="{'group_by':'second_barcode'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem id="stock.menu_stock_config_settings" name="Configuration" parent="stock.menu_stock_root"
+                  sequence="100" groups="stock.group_stock_manager,stock.group_stock_user"/>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_model_form_view" model="ir.ui.view">
+            <field name="name">product.model.form</field>
+            <field name="model">product.model</field>
+            <field name="arch" type="xml">
+
+                <form string="Model">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_model_tree_view" model="ir.ui.view">
+            <field name="name">product.model.tree</field>
+            <field name="model">product.model</field>
+            <field name="arch" type="xml">
+                <tree string="Model">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_model_action_view" model="ir.actions.act_window">
+            <field name="name">Model</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.model</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a New Model
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="product_model_action_menu" name="Model"
+                  parent="stock.menu_product_in_config_stock" action="product_model_action_view" sequence="4" groups="stock.group_stock_user" />
+    </data>
+</odoo>

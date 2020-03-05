@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.account</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_terms']" position="after">
+                    <div class="mt16">
+                        <label for="purchase_terms_cond" class="col-lg-3 o_light_label"/>
+                        <field name="purchase_terms_cond" placeholder="Insert your purchase terms &amp; conditions here..."/>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
